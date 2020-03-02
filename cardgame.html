@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Memory Game</title>
+    <style>
+       .table{
+            display: flex;
+            height: fit-content;
+            width: 90vw;
+            border: solid 1px blue;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-around;
+            margin: auto;
+       }
+       .card{
+            display: flex;
+            height: 15vw;
+            width: 10vw;
+            background-color: magenta;
+            border: solid 2px black;
+            margin: 2vw;
+            font-size: 3vw;
+       }
+       
+       .front{
+            background-color: inherit;
+            color: inherit;
+       }
+       .back{
+            background-color: teal;
+            color: white;
+            display:none;
+       }
+       .front:hover{
+           display: none;
+       }
+       .front:hover, .back{
+           display:content;
+       }
+    </style>
+    
+</head>
+<body>
+    <div class="table">
+        <div id="one" class="card">duck</div>
+        <div id="two" class="card">duck</div>
+        <div id="three" class="card">duck</div>
+        <div id="four" class="card">duck</div>
+        <div id="five" class="card">duck</div>
+        <div id="six" class="card">duck</div>
+        <div id="seven" class="card">duck</div>
+        <div id="eight" class="card">duck</div>
+        <div id="nine" class="card">duck</div>
+        <div id="ten" class="card">duck</div>
+        <div id="eleven" class="card">duck</div>
+        <div id="twelve" class="card">duck</div>
+    </div>
+
+    <script>
+        
+        var cards = Array.from(document.querySelectorAll(".card"));
+        var ducks = ["mallard", "peking", "psy", "Scrooge Mc", "Darkwing", "Dodgers"]
+
+        console.log(cards);
+        for(i = 0; i < cards.length; i++)
+        {
+            cards[i].addEventListener("click", flip); 
+            cards[i].style.order = Math.floor(Math.random() * 12); 
+        }
+
+        var tempAnswer = "quack";
+        var tempCard = 13;
+        //MAKE THIS WORK
+        preventClick = false;
+
+        
+
+        function flip(event)
+        { 
+            if (preventClick)
+            {
+                console.log("nope");
+            }
+            else
+            {
+                console.log(event);
+                var num = cards.indexOf(event.target);
+                if (num == 0 || num == 1)
+                {
+                    var answer = ducks[0];
+
+                }
+                else if(num == 2 || num == 3)
+                {
+                    var answer = ducks[1];
+                }
+                else if(num == 4 || num == 5)
+                {
+                    var answer = ducks[2];
+                }
+                else if(num == 6 || num == 7)
+                {
+                    var answer = ducks[3];
+                }
+                else if(num == 8 || num == 9)
+                {
+                    var answer = ducks[4];
+                }
+                else if(num == 10 || num == 11)
+                {
+                    var answer = ducks[5];
+                }
+                cards[num].innerHTML = answer;
+
+                
+                if (tempAnswer == "quack")
+                {
+                    tempAnswer = answer;
+                    tempCard = num;
+                }
+                else if (tempAnswer == answer)
+                {
+                    //keep the cards flipped;
+                    //reset tempAnswer
+                    tempAnswer = "quack";
+                    tempCard = 13;
+                }
+                else
+                {
+                    preventClick = true;
+                    //everything is unclickable
+                    setTimeout(function ()
+                    {
+                        //flip tempCard back over
+                        cards[tempCard].innerHTML = "duck";
+                        //flip event.target back over
+                        cards[num].innerHTML = "duck";
+                        tempAnswer = "quack";
+                        tempCard = 13;
+                        preventClick = false;
+                        //unfreeze it
+                    }, 1000);       
+                }
+            }
+            
+            
+        }
+     
+    </script>
+</body>
+</html>
